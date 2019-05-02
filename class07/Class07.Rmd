@@ -1,0 +1,215 @@
+---
+title: 'Class 7: R functions and packages'
+author: "Fiona Moore"
+date: "4/23/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Functions revisited
+
+We will source a file from online with our functions from last lecture. 
+
+```{r}
+source("http://tinyurl.com/rescale-R")
+
+```
+
+Try out the last day's rescale() function
+
+```{r}
+rescale(1:10)
+```
+
+Try the rescale2() fucntion that catches string inputs. It has a stop function included.  
+```{r}
+#rescale2(c(1:10, "string"))
+```
+
+
+#Find missing NA vales in two vectors
+Start with a simple example of the larger problem I am trying ti solve
+
+```{r}
+x <- c( 1, 2, NA, 3, NA)
+y <- c(NA, 3, NA, 3, 4)
+```
+
+```{r}
+is.na(x)
+```
+ 
+```{r}
+is.na(y)  
+```
+
+Try putting these together with an AND
+
+```{r}
+is.na(x) & is.na(y)
+```
+
+How many trues are in this answer?
+Take the sum() to find how many TRUE values we have and thus how many NAs we had in both x and y
+
+```{r}
+sum(is.na(x) & is.na(y))
+```
+
+Now I can make this into our first function...
+
+```{r}
+both_na <- function(x, y) {
+  sum(is.na(x) & is.na(y))
+}
+```
+
+```{r}
+both_na(x, c(NA, 3, NA, 2, NA))
+```
+
+Test, test, test
+
+```{r}
+x <- c(NA, NA, NA)
+y1 <- c( 1, NA, NA)
+y2 <- c( 1, NA, NA, NA)
+```
+
+```{r}
+both_na(x, y2)
+```
+
+```{r}
+y3 <- c(1, NA, NA, NA, NA, NA, NA)
+both_na(x, y3)
+```
+
+```{r}
+3 == 3
+```
+
+```{r}
+3 != 2
+```
+Put a stop() into our fucntion to stop it when the length of x and y are not equal.
+Now lets try the both.na2() fucntion on our different length inout vectors.
+```{r}
+#both_na2(x, y2)
+```
+
+```{r}
+which(c(F,F, T, F, T))
+
+#which(is.na(c(1, 2, NA, 4)))
+
+
+```
+
+```{r}
+x <- c( 1, 2, NA, 3, NA)
+y <- c(NA, 3, NA, 3, 4)
+
+both_na3(x, y)
+```
+
+
+#Another example: intersect function 
+
+Finding common genes in two data sets 
+
+```{r}
+df1
+```
+
+```{r}
+df2
+```
+
+
+Make things simple
+```{r}
+x <- df1$IDs
+y <- df2$IDs
+
+x
+y
+```
+
+```{r}
+intersect(x, y)
+```
+
+```{r}
+x %in% y
+```
+
+```{r}
+which(x %in% y)
+```
+
+```{r}
+x[x %in% y]
+```
+
+```{r}
+cbind(x[x %in% y], y[y %in% x])
+```
+
+Use the R studio shortcut 'Code > Extract Function' to turn our snippet into a working function.
+```{r}
+gene_intersect <- function(x, y) {
+  cbind(x[x %in% y], y[y %in% x])
+}
+```
+
+```{r}
+gene_intersect(df1$IDs, df2$IDs)
+```
+
+```{r}
+gene_intersect2(df1, df2)
+```
+
+```{r}
+gene_intersect3(df1, df2)
+```
+
+```{r}
+merge(df1, df2, by = "IDs")
+```
+
+# Grade function
+Calculate the average/ mean score, dropping the lowest 
+
+```{r}
+x <- c(100, 100, 100, 100, 100, 100, 100, 90)
+y <- c(100, 90, 90, 90, 90, 90, 97, 80)
+```
+
+```{r}
+min(x)
+```
+
+```{r}
+(sum(x) - min(x)) / (length(x)-1)
+```
+```{r}
+grade <- function(x) {
+  (sum(x) - min(x)) / (length(x)-1)
+}
+```
+
+```{r}
+grade(y)
+```
+
+ 
+
+
+
+
+
