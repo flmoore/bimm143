@@ -1,5 +1,6 @@
 #' ---
 #' title: "Class 5: R
+#' output: github_document
 
 # Class 5 R Graphics 
 weight <- read.table("bimm143_05_rstats/weight_chart.txt", header = TRUE)
