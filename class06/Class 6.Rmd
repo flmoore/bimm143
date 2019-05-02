@@ -1,0 +1,109 @@
+---
+title: 'Class 6: R Functions'
+author: "Fiona Moore"
+date: "4/18/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About
+This is my **class 6** r markdown document with my *code* and notes for the day.
+```{r}
+plot(1:10, typ= "l", col="blue")
+```
+
+
+## Reading in files practice 
+
+There are 3 files to read.
+
+```{r}
+read.table("test1.txt", header=TRUE, sep=",")
+```
+
+```{r}
+read.table("test2.txt", header=TRUE, sep="$")
+```
+
+```{r}
+read.table("test3.txt")
+```
+
+
+## Functions 
+
+First function example.
+
+```{r}
+add <- function(x, y=1) {
+  x + y 
+}  
+```
+
+```{r}
+add(10)
+```
+
+```{r}
+add(x=c(1,2,3), y=4)
+```
+
+```{r}
+#add(1, 2, 2)
+```
+
+## Another Example 
+```{r}
+rescale <- function(x) {
+ rng <-range(x, na.rm = TRUE)
+ (x - rng[1]) / (rng[2] - rng[1])
+}
+```
+```{r}
+rescale(1:10)
+```
+
+```{r}
+# How would you get your function to work here…
+rescale( c(1,2,NA,3,10) )
+```
+
+```{r}
+x <- c(1,2,NA,3,10)
+rng <-range(x, na.rm = TRUE)
+(x - rng[1]) / (rng[2] - rng[1])
+```
+
+
+
+```{r}
+# What should your function do here?
+#rescale( c(1,10,"string") )
+```
+
+
+```{r}
+rescale3 <- function(x, na.rm=TRUE, plot=FALSE) {
+ rng <-range(x, na.rm=na.rm)
+ print("Hello")
+ answer <- (x - rng[1]) / (rng[2] - rng[1])
+ print("is it me you are looking for?")
+ if(plot) {
+ plot(answer, typ="b", lwd=4)
+ }
+ print("I can see it in ...")
+ return(answer)
+}
+```
+
+```{r}
+rescale3( c(1,3,NA,10))
+```
+
+```{r}
+rescale3( c(1,3,NA,10), plot= TRUE)
+```
+
