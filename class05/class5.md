@@ -3,8 +3,8 @@ Class 5
 Fiona Moore
 5/2/2019
 
-Class 5 GRaphics
-----------------
+Graphics
+--------
 
 ``` r
 weight <- read.table("bimm143_05_rstats/weight_chart.txt", header = TRUE)
