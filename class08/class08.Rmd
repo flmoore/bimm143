@@ -2,7 +2,7 @@
 title: 'Class8: Machine Learning'
 author: "Fiona Moore"
 date: "4/25/2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
