@@ -4,6 +4,6 @@ This is my classwork for [BIMM143 Spring 2019](https://bioboot.github.io/bimm143
 
 Class 05: [R basics, data structures and data inputs](https://github.com/flmoore/bimm143/blob/master/class05/class5.md) 
 
-Class 06: R graphics, generating plots with R
+Class 06: [R graphics, generating plots with R](https://github.com/flmoore/bimm143/blob/master/class06/Class_6.md)
 
 Class 07: 
