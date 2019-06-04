@@ -6,4 +6,6 @@ Class 05: [R basics, data structures and data inputs](https://github.com/flmoore
 
 Class 06: [R graphics, generating plots with R](https://github.com/flmoore/bimm143/blob/master/class06/Class_6.md)
 
-Class 07: [R functions](https://github.com/flmoore/bimm143/blob/master/class07/Class07.md)
+Class 07: [R functions and packages](https://github.com/flmoore/bimm143/blob/master/class07/Class07.md)
+
+Class 08: [Machine Learning](https://github.com/flmoore/bimm143/blob/master/class08/class08.md)
