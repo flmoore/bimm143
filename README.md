@@ -9,3 +9,13 @@ Class 06: [R graphics, generating plots with R](https://github.com/flmoore/bimm1
 Class 07: [R functions and packages](https://github.com/flmoore/bimm143/blob/master/class07/Class07.md)
 
 Class 08: [Machine Learning](https://github.com/flmoore/bimm143/blob/master/class08/class08.md)
+
+Class 09: [Unsupervised Project](https://github.com/flmoore/bimm143/blob/master/class09/Class09.md)
+
+Class 11:
+
+Class 12:
+
+Class 13:
+
+Class 14: 
