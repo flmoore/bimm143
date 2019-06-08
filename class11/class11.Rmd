@@ -1,0 +1,139 @@
+---
+title: "Class 11"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The PDB Database
+
+```{r}
+db <- read.csv("Data Export Summary.csv", row.names = 1)
+head(db)
+
+
+```
+
+How many x-ray, 
+```{r}
+(db$Total[1]/sum(db$Total))*100
+```
+
+What perecent are Protein structures?
+```{r}
+(sum(db$Proteins)/sum(db$Total))*100
+
+```
+
+
+
+```{r}
+library(datapasta)
+
+tmp <- data.frame(stringsAsFactors=FALSE,
+   Experimental.Method = c("X-Ray", "NMR", "Electron Microscopy", "Other",
+                           "Multi Method", "Total"),
+              Proteins = c(126880, 11062, 2277, 256, 129, 140604),
+         Nucleic.Acids = c(2012, 1279, 31, 4, 5, 3331),
+    ProteinComplex = c(6547, 259, 800, 6, 2, 7614),
+                 Other = c(8, 8, 0, 13, 1, 30),
+                 Total = c(135447, 12608, 3108, 279, 137, 151579)
+)
+
+```
+
+
+Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+ 1,157 structures 
+
+
+## Bio3D in R
+
+```{r}
+library(bio3d)
+```
+
+An example using Bio3D
+```{r}
+example(plot.bio3d)
+```
+
+Reading a PDB file
+```{r}
+pdb <- read.pdb("1hsg")
+pdb
+```
+
+How many amino acid residues are there in this pdb object and what are the two nonprotein residues?
+- 128 residues 
+- nonprotein residues: HOH and MK1
+
+To access these individual attributes we use the dollar-attribute name convention that is common with R list objects. For example, to access the atom attribute or component use pdb$atom:
+
+```{r}
+head(pdb$atom)
+```
+
+```{r}
+# Print a subset of $atom data for the first two atoms
+pdb$atom[1:2, c("eleno", "elety", "x","y","z")]
+```
+
+```{r}
+head(pdb$atom$type)
+```
+
+Atom selection is done via the function atom.select() 
+
+```{r}
+inds <- atom.select(pdb, "protein")
+```
+* X,Y,Z are cooridinates for each atom, as a place in space *
+
+```{r}
+pdb$atom[inds$atom, ]
+```
+
+Extracting ligand only
+```{r}
+lig.pdb <- atom.select(pdb, "ligand", value = T)
+write.pdb(lig.pdb, file = "1hg_ligand.pdb")
+```
+
+Extracting just the protein
+```{r}
+prot.pdb <- atom.select(pdb, "protein", value = T)
+write.pdb(prot.pdb, file = "1hg_protein.pdb")
+```
+
+
+## Application on Adenylate Kinase (Adk): PCA
+
+Below we perform a blast search of the PDB database to identify related structures to our query Adenylate kinase sequence. In this particular example we use function get.seq() to fetch the query sequence for chain A of the PDB ID 1AKE and use this as input to blast.pdb(). 
+Note that get.seq() would also allow the corresponding UniProt identifier.
+
+```{r}
+aa <- get.seq("1ake_A")
+
+# Blast or hmmer search
+b <- blast.pdb(aa)
+```
+
+```{r}
+# Plot a summary of search results
+hits <- plot(b)
+```
+
+
+
+
+
+
+
+
+
+
+
+ 

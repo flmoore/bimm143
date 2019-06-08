@@ -1,0 +1,89 @@
+---
+title: "Class 13.2"
+author: "Fiona Moore"
+date: "5/14/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## SNPs in Mexican Ancestry in Los Angeles, CA
+
+What proportion of the Mexican Ancestry in Los Angeles sample population (MXL) are homozygous for the asthma associated SNP (G|G)? 
+```{r}
+mxl <- read.csv("373531-SampleGenotypes-Homo_sapiens_Variation_Sample_rs8067378 (1).csv")
+head(mxl)
+
+```
+
+```{r}
+(table(mxl$Genotype..forward.strand.)/ nrow(mxl))*100
+```
+
+## Quality Scores in FASTQ Files
+
+```{r}
+library(seqinr)
+library(gtools)
+phred <- asc( s2c("DDDDCDEDCDDDDBBDDDCC@") ) - 33
+phred 
+```
+
+
+## Population Scale Analysis
+
+
+REad RNA-Seq count data with genotypw information 
+```{r}
+expr <- read.table("class13.2.txt")
+expr
+```
+
+Overview of everything
+```{r}
+summary(expr)
+```
+
+Find G/G genotype.
+```{r}
+expr$geno == "G/G"
+```
+
+```{r}
+inds <- expr$geno == "G/G"
+summary(expr[inds, "exp"])
+```
+
+```{r}
+inds <- expr$geno == "A/G"
+summary(expr[inds, "exp"])
+```
+
+```{r}
+inds <- expr$geno == "A/A"
+summary(expr[inds, "exp"])
+```
+
+Use boxplot to display the data.
+
+```{r}
+boxplot(exp ~ geno, data=expr)
+```
+
+Shows that there is significant difference in gene expression for each genotype. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

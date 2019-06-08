@@ -1,0 +1,275 @@
+---
+title: "Class 14"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(BiocInstaller)
+library(DESeq2)
+```
+
+## Import countData and colData
+```{r}
+counts <- read.csv("airway_scaledcounts.csv", stringsAsFactors = FALSE, row.names = 1)
+metadata <-  read.csv("airway_metadata.csv", stringsAsFactors = FALSE)
+```
+
+
+```{r}
+nrow(counts)
+```
+
+
+```{r}
+colnames(counts)
+```
+
+```{r}
+metadata$id
+```
+
+```{r}
+all(colnames(counts) == metadata$id)
+```
+
+## Section3: Walk through of gene expression analysis
+
+Our metadata file tells us which columns of the countData are drug treated and control (non drugged).
+
+```{r}
+control.inds <- metadata$dex == "control"
+control <- metadata[control.inds,]
+control
+```
+
+Just want the ids because they are what are in the counts data.
+```{r}
+control$id
+```
+
+The extracted contol (non drugged) table.
+```{r}
+head(counts[, control$id])
+```
+
+Finding the mean count values for all genes across control expereiments. 
+```{r}
+control.mean <- rowSums(counts[, control$id])/ length(control$id)
+```
+
+Do the same for the drug treated experiments.
+
+```{r}
+treated.inds <- metadata$dex == "treated"
+treated <- metadata[treated.inds,]
+treated
+```
+
+```{r}
+treated$id
+```
+
+```{r}
+head(counts[, treated$id])
+```
+
+```{r}
+treated.mean <- rowSums(counts[, treated$id])/ length(treated$id)
+```
+
+
+Lets store the control.mean and the treated.mean together for ease of use
+```{r}
+meancounts <- data.frame(control.mean, treated.mean)
+```
+
+What is the sum counts across all genes in contol in treated. Sum the columns.
+
+```{r}
+colSums(meancounts)
+```
+
+```{r}
+plot(meancounts)
+```
+
+Change plot to a log-plot scale so that we can see our data 
+```{r}
+plot(meancounts, log = "xy")
+```
+
+Here we calculate log2foldchange, add it to our meancounts data.frame and inspect the results either with the head() or the View() function for example.
+0 means the two are exactly the same, +/- occurs when one is larger or smaller than the other.
+```{r}
+meancounts$log2fc <- log2(meancounts[,"treated.mean"]/meancounts[,"control.mean"])
+head(meancounts)
+```
+
+We will now remove the NaN and -Inf values.
+```{r}
+to.rm <- unique(which(meancounts[,1:2] == 0, arr.ind = TRUE) [,1])
+```
+
+```{r}
+mycounts <- meancounts[-to.rm,]
+nrow(mycounts)
+```
+
+How many of these genes are upregulated and how many are downregulated by the drug tratment. Wherethere they are - or + in the log2 table.
+```{r}
+up.inds <- mycounts$log2fc > 2
+sum(up.inds)
+```
+
+...and how many are down?
+```{r}
+down.inds <- mycounts$log2fc < -2
+sum(down.inds)
+```
+
+
+## Section 4: Annotating Data
+
+Upregulated genes: What are these genes?
+```{r}
+head(mycounts[up.inds,])
+```
+
+We can add annotation from a supplied CSV file, such as those available from ENSEMBLE or UCSC. The annotables_grch38.csv annotation table links the unambiguous Ensembl gene ID to other useful annotation like the gene symbol, full gene name, location, Entrez gene ID, etc.
+```{r}
+anno <- read.csv("annotables_grch38.csv")
+head(anno)
+```
+
+Use the **merge()** function to add the annotation data from the "anno" object to our RNA-seq results in "mycounts"
+```{r}
+mycounts.anno <- merge(mycounts, anno, by.x ="row.names", by.y="ensgene")
+mycounts.anno
+```
+
+Bioconductor’s annotation packages help with mapping various ID schemes to each other. Here we load the AnnotationDbi package and the annotation package org.Hs.eg.db.
+```{r}
+library("AnnotationDbi")
+library("org.Hs.eg.db")
+```
+
+This is the organism annotation package (“org”) for Homo sapiens (“Hs”), organized as an AnnotationDbi database package (“db”), using Entrez Gene IDs (“eg”) as primary key. To get a list of all available key types, use:
+```{r}
+columns(org.Hs.eg.db)
+```
+
+
+We will use the **mapIds()** function from bioconductor to add annoation data to our ressults
+```{r}
+mycounts$symbol <- mapIds(org.Hs.eg.db,
+                    keys=row.names(mycounts), # the gene names in our dataset
+                    column="SYMBOL",          # what new data do we want to add
+                    keytype="ENSEMBL")        #format of our gene names
+```
+
+```{r}
+head(mycounts)
+```
+
+```{r}
+mycounts$entrez <- mapIds(org.Hs.eg.db,
+                    keys=row.names(mycounts), 
+                    column="ENTREZID",          
+                    keytype="ENSEMBL") 
+```
+
+```{r}
+head(mycounts)
+```
+
+## Section 5: Use DESeq2
+
+```{r}
+library("DESeq2")
+citation("DESeq2")
+```
+
+Set up the object needed for DESeq analysis
+
+
+```{r}
+dds <- DESeqDataSetFromMatrix(countData=counts, 
+                              colData=metadata, 
+                              design= ~dex)
+dds
+```
+
+```{r}
+dds <- DESeq(dds)
+```
+
+```{r}
+res <- results(dds)
+head(res)
+```
+
+```{r}
+summary(res)
+```
+
+```{r}
+res05 <- results(dds, alpha=0.05)
+summary(res05)
+```
+
+```{r}
+res01 <- results(dds, alpha=0.01)
+summary(res01)
+```
+
+Store our results as a data.frame object
+```{r}
+res01 <- as.data.frame(results(dds, alpha = 0.01))
+head(res01)
+```
+
+Let's sort or order our results by the adjusted p-value.
+
+```{r}
+# an example of using order to sort a vector
+x <-c(5,2,3,1,4)
+x[order(x)]
+```
+
+```{r}
+ord.inds <- order(res01$padj)
+write.csv(res01[ord.inds,], file="signif01_results.cvs")
+```
+
+
+## Create a figure: Volcano plot
+
+Volcano plot shows the log fold change on the X-axis, and the −log10 of the p-value on the Y-axis (the more significant the p-value, the larger the −log10 of that value will be).
+
+Here we first make a volcano plot with base graphics and color by our res$sig+1 (we add 1 so we dont have 0 as a color and end up with white points):
+
+```{r}
+plot(res01$log2FoldChange, -log(res01$padj))
+```
+
+```{r}
+mycols <- rep("grey", nrow(res01))
+mycols[res01$padj < 0.01] <- "red" 
+mycols[ abs(res01$log2FoldChange) > 2] <- "blue"
+
+mycols[(res01$padj < 0.01) & (abs(res01$log2FoldChange) >2)] <- "green"
+
+plot(res01$log2FoldChange, -log(res01$padj), xlab= "fold change(drug/control)", ylab= "-log(p-value)", col=mycols)
+```
+
+
+
+
+
+
+
+
