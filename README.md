@@ -20,7 +20,7 @@ Class 13: [Genome Informatics](https://github.com/flmoore/bimm143/blob/master/cl
 
 Class 14: 
 
-Class 15: (https://github.com/flmoore/bimm143/blob/master/class15/class15.md)
+Class 15: [Genome Annotation](https://github.com/flmoore/bimm143/blob/master/class15/class15.md)
 
 Class 16:
 
