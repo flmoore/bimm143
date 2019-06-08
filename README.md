@@ -18,7 +18,7 @@ Class 12: [Bioinformatics in drug discovery and design](https://github.com/flmoo
 
 Class 13: [Genome Informatics](https://github.com/flmoore/bimm143/blob/master/class13.2/class13.2.md)
 
-Class 14: [Transcriptomics and RNA-seq]
+Class 14: [Transcriptomics and RNA-seq](https://github.com/flmoore/bimm143/blob/master/class14/class14.md)
 
 Class 15: [Genome Annotation](https://github.com/flmoore/bimm143/blob/master/class15/class15.md)
 
