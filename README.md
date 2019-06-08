@@ -12,7 +12,7 @@ Class 08: [Machine Learning](https://github.com/flmoore/bimm143/blob/master/clas
 
 Class 09: [Unsupervised Project](https://github.com/flmoore/bimm143/blob/master/class09/Class09.md)
 
-Class 11:
+Class 11: [PDB](https://github.com/flmoore/bimm143/blob/master/class11/class11.md)
 
 Class 12:
 
