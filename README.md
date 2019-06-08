@@ -16,7 +16,7 @@ Class 11: [PDB](https://github.com/flmoore/bimm143/blob/master/class11/class11.m
 
 Class 12: [Bioinformatics in drug discovery and design](https://github.com/flmoore/bimm143/blob/master/class13/class13.md)
 
-Class 13:
+Class 13: [Genome Informatics](https://github.com/flmoore/bimm143/blob/master/class13.2/class13.2.md)
 
 Class 14: 
 
