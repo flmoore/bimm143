@@ -12,10 +12,14 @@ Class 08: [Machine Learning](https://github.com/flmoore/bimm143/blob/master/clas
 
 Class 09: [Unsupervised Project](https://github.com/flmoore/bimm143/blob/master/class09/Class09.md)
 
-Class 11:
+Class 11: [PDB](https://github.com/flmoore/bimm143/blob/master/class11/class11.md)
 
-Class 12:
+Class 12: [Bioinformatics in drug discovery and design](https://github.com/flmoore/bimm143/blob/master/class13/class13.md)
 
-Class 13:
+Class 13: [Genome Informatics](https://github.com/flmoore/bimm143/blob/master/class13.2/class13.2.md)
 
-Class 14: 
+Class 14: [Transcriptomics and RNA-seq]
+
+Class 15: [Genome Annotation](https://github.com/flmoore/bimm143/blob/master/class15/class15.md)
+
+Class 17: [Biological Network Analysis]
