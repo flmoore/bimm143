@@ -22,4 +22,4 @@ Class 14: [Transcriptomics and RNA-seq](https://github.com/flmoore/bimm143/blob/
 
 Class 15: [Genome Annotation](https://github.com/flmoore/bimm143/blob/master/class15/class15.md)
 
-Class 17: [Biological Network Analysis]
+Class 17: [Biological Network Analysis](https://github.com/flmoore/bimm143/blob/master/class17/class17.md)
