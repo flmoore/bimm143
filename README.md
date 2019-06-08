@@ -14,7 +14,7 @@ Class 09: [Unsupervised Project](https://github.com/flmoore/bimm143/blob/master/
 
 Class 11: [PDB](https://github.com/flmoore/bimm143/blob/master/class11/class11.md)
 
-Class 12:
+Class 12: [Bioinformatics in drug discovery and design](https://github.com/flmoore/bimm143/blob/master/class13/class13.md)
 
 Class 13:
 
